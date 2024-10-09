@@ -1,0 +1,63 @@
+/* Sidebar styles */
+.sidebar {
+  position: fixed; /* Sidebar is fixed and overlays content */
+  left: -250px;
+  top: 80px; /* Ensure it doesn't overlap with navbar */
+  width: 250px; /* Adjust the width */
+  height: 100vh; /* Full viewport height */
+  background: rgba(255, 255, 255, 0.1); /* Transparent background */
+  backdrop-filter: blur(10px); /* Blur effect for the sidebar */
+  transition: left 0.3s ease, backdrop-filter 0.3s ease;
+  padding-top: 60px;
+  color: rgb(0, 0, 0);
+  z-index: 1000; /* Ensure sidebar appears on top */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Shadow for visibility */
+}
+
+/* Sidebar open state */
+.sidebar.open {
+  left: 0;
+  backdrop-filter: blur(15px); /* Increase blur effect when open */
+}
+
+/* Sidebar list styles */
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  padding: 10px;
+}
+
+.sidebar ul li a {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: red;
+  border: none;
+  color: rgb(245, 243, 243);
+  padding: 5px;
+}
+
+/* Blur page content when the sidebar is open */
+.page-content {
+  transition: filter 0.3s ease;
+}
+
+.page-content.blur {
+  filter: blur(5px); /* Blur the rest of the content */
+  pointer-events: none; /* Prevent interaction with page content */
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+  font-size: 24px;
+  cursor: pointer;
+}

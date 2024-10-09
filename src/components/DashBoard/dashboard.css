@@ -1,0 +1,78 @@
+*{
+    margin:0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+.dashboard-container {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .dashboard-content {
+    display: flex;
+    justify-content: space-between;
+    
+  }
+  
+  .dashboard-main {
+    width: 100%;
+    padding: 20px;
+    margin: 10px 10px;
+  }
+  
+  h1 {
+    font-size: 2em;
+    margin: 20px 20px;
+
+  }
+  
+  p {
+    margin: 20px 10px;
+  }
+  
+  .dashboard-stats {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .stat-box {
+    width: 40%;
+    padding: 20px;
+    border: 1px solid #060101;
+    text-align: center;
+  }
+  
+  .upload-btn {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: #df6f4d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 50px 20px;
+  }
+  
+  .upload-btn:hover {
+    background-color: #21b300;
+  }
+  
+  .progress-link {
+    margin-top: 20px;
+  }
+  
+  .progress-link a {
+    text-decoration: none;
+    color: #007bff;
+  }
+  
+  .progress-link a:hover {
+    color: #0056b3;
+  }
+  
+  .error {
+    color: red;
+  }
+  

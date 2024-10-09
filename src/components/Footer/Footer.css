@@ -1,0 +1,79 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Main footer container */
+  .footer {
+   
+    color: white;
+    padding: 20px 10px; /* Reduced padding */
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  /* Sections within the footer */
+  .footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding-bottom: 10px; /* Reduced padding */
+    background:linear-gradient(35deg,rgb(234, 131, 13), rgb(63, 63, 192),orange);
+  }
+  
+  /* Contact info styling */
+  .contact-info h4 {
+    margin-bottom: 8px; /* Reduced margin */
+    font-size: 18px; /* Slightly smaller font size */
+  }
+  
+  /* Social media section */
+  .social-media h4 {
+    margin-bottom: 8px; /* Reduced margin */
+  }
+  .social-media a {
+    margin: 0 8px; /* Reduced margin */
+    display: inline-block;
+  }
+  .social-media img {
+    width: 25px; /* Reduced icon size */
+    height: 25px;
+  }
+  
+  /* Useful links styling */
+  .useful-links h4 {
+    margin-bottom: 8px; /* Reduced margin */
+  }
+  .useful-links ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .useful-links ul li {
+    margin: 4px 0; /* Reduced margin */
+  }
+  .useful-links ul li a {
+    color: white;
+    text-decoration: none;
+  }
+  .useful-links ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Footer bottom section */
+  .footer-bottom {
+    border-top: 1px solid white;
+    padding-top: 8px; /* Reduced padding */
+    font-size: 12px; /* Slightly smaller font size */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+    }
+  }
+  

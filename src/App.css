@@ -1,0 +1,339 @@
+/* Common Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+/* Navigation styling */
+.nav-ul {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+  display: flex;
+  justify-content: space-around;
+   
+  transition: background-color 0.3s ease-in-out;
+}
+
+
+.nav-ul li {
+  display: inline-block;
+  margin-right: 20px; 
+  
+}
+
+.nav-ul li a {
+  text-decoration: none;
+  color: black;
+  padding: 7px;
+  font-weight: 700;
+  position: relative;
+  display: block;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-ul li a:hover {
+  color: #1a0b65; 
+}
+
+.nav-ul li a::before {
+  content: '';
+  width: 100%;
+  height: 0;
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  bottom: -5px;
+  background-color: rgba(124, 234, 6, 0.773);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  transition: height 0.5s ease-in-out;
+}
+
+.nav-ul li a:hover::before {
+  height: 95%; 
+}
+
+/* Fixed header */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #f68484;
+  padding: 10px 0;
+}
+
+/* Dummy header to maintain layout */
+.dummy-header {
+  height: 80px;
+  width: 100%;
+}
+
+/* Main App container */
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.content {
+  flex: 1;  
+  padding-top: 60px; 
+}
+
+footer {
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align: center;
+}
+
+footer p {
+  margin: 0; 
+}
+
+
+/* Updated Form Styles with transparent background and blur effect */
+.register, .login {
+  margin: 25px auto;
+  max-width: 500px;
+  padding: 25px;
+  border: 2px solid black; 
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.8); 
+  backdrop-filter: blur(10px); 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Add background image for register and login forms only */
+.register::before, .login::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1; 
+  background-image: url('yoga-log.jpg'); 
+  
+  background-position: center;
+  background-attachment: fixed;
+  border-radius: 8px;
+  opacity: 1;
+}
+
+/* Ensure full page height is covered */
+html, body {
+  height: 100%;
+  margin: 0;
+  
+}
+
+.inputBox {
+  margin-bottom: 20px; 
+  padding: 15px;
+  width: 100%;
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+  box-sizing: border-box;
+}
+
+.passwordWrapper {
+  position: relative;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.passwordWrapper .inputBox {
+  padding-right: 60px; 
+  width: 100%;
+}
+
+.passwordWrapper .toggleButton {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #007BFF;
+}
+
+
+/* Updated Button Styles */
+.appButton {
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #ff5252;
+  border: 2px solid black;
+  border-radius: 10px; 
+  box-shadow: 5px 5px 0px black;
+  transition: all 0.3s ease; 
+  padding: 10px 20px;
+  width: 150px;
+  cursor: pointer;
+}
+
+.appButton:hover {
+  background-color: #fff; 
+  color: red; 
+  border: 2px solid red;
+  box-shadow: 5px 5px 0px red;
+}
+
+.appButton:active {
+  background-color: rgb(168, 187, 43);
+  box-shadow: none; 
+  transform: translateY(4px); 
+}
+
+/* Applying the comic-button class for additional buttons */
+.comic-button {
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #ff5252;
+  border: 2px solid black;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0px black;
+  transition: all 0.3s ease;
+}
+
+.comic-button:hover {
+  background-color: #fff;
+  color: red;
+  border: 2px solid red;
+  box-shadow: 5px 5px 0px red;
+}
+
+.comic-button:active {
+  background-color: rgb(168, 187, 43);
+  box-shadow: none;
+  transform: translateY(4px);
+}
+
+/* Add this CSS for the SignUp and Login buttons placement */
+.auth-buttons {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center; 
+  margin-top: 20px; 
+}
+
+.auth-buttons .appButton {
+  margin: 10px 0; 
+  padding: 10px 20px;
+  background-color: rgb(180, 180, 227);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.auth-buttons .appButton:hover {
+  background-color: rgb(150, 150, 200);
+}
+
+.auth-buttons a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .nav-ul {
+    flex-direction: column;
+  }
+
+  .nav-ul li {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .register, .login {
+    max-width: 100%;
+    padding: 20px;
+  }
+}
+.forgot-password-link {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+
+}
+
+/* Profile Icon Styles */
+.profile-icon {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-pic {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  
+  border: 2px solid #ccc;
+}
+
+/* Dropdown Menu */
+.profile-dropdown {
+  position: relative;
+  
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 20px;
+  right: 0;
+  left: 7px;
+  
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 19px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  width: 135px;
+  text-align: left;
+}
+
+.dropdown-menu p {
+  margin: 0;
+  font-weight: bold;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: #007BFF;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown-menu button:hover,
+.dropdown-menu a:hover {
+  color: #0056b3;
+}
