@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './VideoLibrary.css'; // Import the CSS file
+import './VideoLibrary.css'; // Ensure CSS classes are defined
 
 const VideoLibrary = ({ refreshTrigger }) => {
   const [videos, setVideos] = useState([]);
@@ -8,6 +8,7 @@ const VideoLibrary = ({ refreshTrigger }) => {
   const [expandedSession, setExpandedSession] = useState(null); // To track which session is expanded
   const currentVideoRef = useRef(null); // Ref to track the currently playing video
 
+  // Fetch videos from the server
   const fetchVideos = async () => {
     setLoading(true);
     setError(null);
@@ -25,11 +26,11 @@ const VideoLibrary = ({ refreshTrigger }) => {
       }
 
       const data = await response.json();
-      console.log('Fetched videos:', data); // Log the fetched data to check structure
+      console.log('Fetched videos:', data); // Debugging log
       setVideos(data);
     } catch (err) {
       setError(err.message);
-      console.error('Error fetching videos:', err); // Log the error for debugging
+      console.error('Error fetching videos:', err); // Debugging log
     } finally {
       setLoading(false);
     }
@@ -39,16 +40,16 @@ const VideoLibrary = ({ refreshTrigger }) => {
     fetchVideos();
   }, [refreshTrigger]); // Re-fetch videos when refreshTrigger changes
 
+  // Toggle session visibility
   const handleSessionToggle = (session) => {
     setExpandedSession(expandedSession === session ? null : session);
   };
 
+  // Handle video playback: pause the currently playing video if a new one is played
   const handleVideoPlay = (event) => {
-    // Pause the currently playing video if there is one
     if (currentVideoRef.current && currentVideoRef.current !== event.target) {
       currentVideoRef.current.pause();
     }
-    // Set the new video as the currently playing one
     currentVideoRef.current = event.target;
   };
 
@@ -59,17 +60,11 @@ const VideoLibrary = ({ refreshTrigger }) => {
 
   // Group videos by session
   const sessions = videos.reduce((acc, video) => {
-    if (video.session) {
-      if (!acc[video.session]) {
-        acc[video.session] = [];
-      }
-      acc[video.session].push(video);
-    } else {
-      if (!acc['General']) {
-        acc['General'] = [];
-      }
-      acc['General'].push(video);
+    const sessionName = video.session || 'General'; // Handle undefined sessions
+    if (!acc[sessionName]) {
+      acc[sessionName] = [];
     }
+    acc[sessionName].push(video);
     return acc;
   }, {});
 
@@ -87,17 +82,17 @@ const VideoLibrary = ({ refreshTrigger }) => {
                 {sessions[session].map((video) => (
                   <li key={video._id}>
                     <h4>{video.title}</h4>
-                    <video
-                      controls
-                      src={`http://localhost:5000/${video.path}`}
-                      onPlay={handleVideoPlay} // Attach event handler to restrict playback
-                    />
                     {video.poster && (
                       <img
                         src={`http://localhost:5000/${video.poster}`}
                         alt="Video Poster"
                       />
                     )}
+                    <video
+                      controls
+                      src={`http://localhost:5000/${video.path}`}
+                      onPlay={handleVideoPlay} // Restrict playback if necessary
+                    />
                   </li>
                 ))}
               </ul>

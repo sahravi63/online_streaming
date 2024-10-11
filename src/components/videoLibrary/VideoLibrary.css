@@ -1,3 +1,4 @@
+/* General Reset */
 * {
   margin: 0;
   padding: 0;
@@ -17,7 +18,7 @@ body {
   margin: 20px auto;
   max-width: 1200px;
   padding: 20px;
-  background:linear-gradient(35deg,rgb(177, 244, 9), rgb(195, 195, 253),orange);
+  background: linear-gradient(35deg, rgb(177, 244, 9), rgb(195, 195, 253), orange);
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -62,22 +63,23 @@ body {
   color: #005bb5;
 }
 
-/* Video and Poster Styling */
-.video-library video {
+/* Poster Styling */
+.video-library img {
   width: 100%;
-  max-width: 800px;
+  max-width: 600px; /* Adjust based on design preferences */
+  height: auto; /* Maintain aspect ratio */
   margin-bottom: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
 }
 
-.video-library img {
+/* Video Styling */
+.video-library video {
   width: 100%;
-  max-width: 200px;
-  margin-top: 10px;
+  max-width: 800px; /* Adjust size based on design preferences */
+  margin-top: 10px; /* Ensure space between poster and video */
   border-radius: 8px;
   border: 1px solid #ccc;
-  object-fit: cover;
 }
 
 /* Loading and Error Messages */
@@ -98,15 +100,15 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
   .video-library h2 {
-      font-size: 1.8rem;
+    font-size: 1.8rem;
   }
 
-  .video-library video,
-  .video-library img {
-      max-width: 100%;
+  .video-library img,
+  .video-library video {
+    max-width: 100%;
   }
 
   .video-library h3 {
-      font-size: 1.3rem;
+    font-size: 1.3rem;
   }
 }

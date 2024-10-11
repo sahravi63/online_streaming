@@ -4,7 +4,7 @@ import axios from 'axios';
 import './profile.css';
 
 const ProfileComponent = ({ onLogout }) => {
-  const [profilePic, setProfilePic] = useState('default-avatar.png'); // Default picture
+  const [profilePic, setProfilePic] = useState('default-avatar.png');
   const [userName, setUserName] = useState('');
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -21,13 +21,13 @@ const ProfileComponent = ({ onLogout }) => {
 
       if (!token) {
         setErrorMessage('You need to log in to access this page.');
-        navigate('/login'); // Redirect to login page
+        navigate('/login');
         setLoading(false);
         return;
       }
 
       try {
-        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000'; // Fallback to localhost:5000
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
         const response = await axios.get(`${apiUrl}/api/profile`, {
           headers: { 'Authorization': `Bearer ${token}` },
         });
@@ -53,27 +53,14 @@ const ProfileComponent = ({ onLogout }) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       setFile(selectedFile);
-      setProfilePic(URL.createObjectURL(selectedFile)); // Preview the selected file
+      setProfilePic(URL.createObjectURL(selectedFile));
     }
   };
 
-  const handleUserNameChange = (event) => {
-    setUserName(event.target.value);
-  };
-
-  const handlePhoneChange = (event) => {
-    setPhone(event.target.value);
-  };
-
-  const handleAddressChange = (event) => {
-    const { name, value } = event.target;
-    setAddress(prevAddress => ({ ...prevAddress, [name]: value }));
-  };
-
-  const handlePreferencesChange = (event) => {
-    const { name, value } = event.target;
-    setPreferences(prevPreferences => ({ ...prevPreferences, [name]: value }));
-  };
+  const handleUserNameChange = (event) => setUserName(event.target.value);
+  const handlePhoneChange = (event) => setPhone(event.target.value);
+  const handleAddressChange = (event) => setAddress({ ...address, [event.target.name]: event.target.value });
+  const handlePreferencesChange = (event) => setPreferences({ ...preferences, [event.target.name]: event.target.value });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -89,23 +76,17 @@ const ProfileComponent = ({ onLogout }) => {
     const formData = new FormData();
     formData.append('name', userName);
     formData.append('phone', phone);
-    if (file) {
-      formData.append('profilePicture', file);
-    }
-
-    // Send address fields individually
+    if (file) formData.append('profilePicture', file);
     formData.append('address.street', address.street);
     formData.append('address.city', address.city);
     formData.append('address.state', address.state);
     formData.append('address.zipCode', address.zipCode);
-
-    // Send preferences fields individually
     formData.append('preferences.meditationLevel', preferences.meditationLevel);
     formData.append('preferences.preferredLanguage', preferences.preferredLanguage);
 
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000'; // Fallback to localhost:5000
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
       const response = await axios.put(`${apiUrl}/api/profile`, formData, {
         headers: { 
           'Authorization': `Bearer ${token}`,
@@ -115,6 +96,7 @@ const ProfileComponent = ({ onLogout }) => {
 
       if (response.status === 200) {
         alert('Profile updated successfully!');
+        setProfilePic(response.data.user.profilePicture || 'default-avatar.png');
       }
     } catch (error) {
       console.error('Error updating profile:', error.response || error.message);
@@ -124,9 +106,23 @@ const ProfileComponent = ({ onLogout }) => {
     }
   };
 
+  const handleCancel = () => {
+    // Reset form fields to their initial state
+    setUserName('');
+    setPhone('');
+    setAddress({ street: '', city: '', state: '', zipCode: '' });
+    setPreferences({ meditationLevel: '', preferredLanguage: '' });
+    setFile(null);
+    setProfilePic('default-avatar.png');
+  
+    // Redirect to the Dashboard page
+    navigate('/dashboard'); // Change this path to match your actual dashboard route
+  };
+  
+
   const handleLogout = () => {
     onLogout();
-    navigate('/'); // Redirect to home page after logout
+    navigate('/');
   };
 
   return (
@@ -138,97 +134,47 @@ const ProfileComponent = ({ onLogout }) => {
 
       <div className="profile-content">
         <div className="profile-picture-section">
-          <img
-            src={profilePic}
-            alt="User's Profile"
-            className="profile-picture"
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="file-input"
-            aria-label="Upload profile picture"
-          />
+          <img src={profilePic} alt="Profile" className="profile-picture" />
+          <input type="file" accept="image/*" onChange={handleFileChange} />
         </div>
-        <div className="profile-details-section">
-          <label className="profile-label">
-            <strong>User Name:</strong>
-          </label>
-          <input
-            type="text"
-            value={userName}
-            onChange={handleUserNameChange}
-            className="profile-input"
-            required
-          />
-          <label className="profile-label">
-            <strong>Phone:</strong>
-          </label>
-          <input
-            type="text"
-            value={phone}
-            onChange={handlePhoneChange}
-            className="profile-input"
-          />
-          <label className="profile-label">
-            <strong>Address:</strong>
-          </label>
-          <input
-            type="text"
-            name="street"
-            value={address.street}
-            placeholder="Street"
-            onChange={handleAddressChange}
-            className="profile-input"
-          />
-          <input
-            type="text"
-            name="city"
-            value={address.city}
-            placeholder="City"
-            onChange={handleAddressChange}
-            className="profile-input"
-          />
-          <input
-            type="text"
-            name="state"
-            value={address.state}
-            placeholder="State"
-            onChange={handleAddressChange}
-            className="profile-input"
-          />
-          <input
-            type="text"
-            name="zipCode"
-            value={address.zipCode}
-            placeholder="Zip Code"
-            onChange={handleAddressChange}
-            className="profile-input"
-          />
-          <label className="profile-label">
-            <strong>Preferences:</strong>
-          </label>
-          <input
-            type="text"
-            name="meditationLevel"
-            value={preferences.meditationLevel}
-            placeholder="Meditation Level"
-            onChange={handlePreferencesChange}
-            className="profile-input"
-          />
-          <input
-            type="text"
-            name="preferredLanguage"
-            value={preferences.preferredLanguage}
-            placeholder="Preferred Language"
-            onChange={handlePreferencesChange}
-            className="profile-input"
-          />
-          <button type="submit" className="submit-button">Update Profile</button>
+
+        <div className="profile-info-section">
+          <label>Username</label>
+          <input type="text" value={userName} onChange={handleUserNameChange} required />
+
+          <label>Phone</label>
+          <input type="text" value={phone} onChange={handlePhoneChange} />
+
+          <label>Street</label>
+          <input type="text" name="street" value={address.street} onChange={handleAddressChange} />
+
+          <label>City</label>
+          <input type="text" name="city" value={address.city} onChange={handleAddressChange} />
+
+          <label>State</label>
+          <input type="text" name="state" value={address.state} onChange={handleAddressChange} />
+
+          <label>Zip Code</label>
+          <input type="text" name="zipCode" value={address.zipCode} onChange={handleAddressChange} />
+
+          <label>Meditation Level</label>
+          <select name="meditationLevel" value={preferences.meditationLevel} onChange={handlePreferencesChange}>
+            <option value="">Select Level</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+
+          <label>Preferred Language</label>
+          <input type="text" name="preferredLanguage" value={preferences.preferredLanguage} onChange={handlePreferencesChange} />
         </div>
+
+        <div className="profile-buttons">
+          <button type="submit" className="profile-save-btn">Save</button>
+          <button type="button" className="profile-cancel-btn" onClick={handleCancel}>Cancel</button>
+        </div>
+        <button type="button" className="profile-logout-btn" onClick={handleLogout}>Logout</button>
       </div>
-      <button type="button" className="logout-button" onClick={handleLogout}>Logout</button>
     </form>
   );
 };
