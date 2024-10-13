@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
+import PaymentPage from './components/payment/PaymentPage';
 import Nav from './components/Nav';
 import Footer from './components/Footer/Footer';
 import SignUp from './components/SignUp'; 
@@ -18,6 +19,10 @@ import Subscriptions from './components/Subscriptions/Subscriptions';
 import Sidebar from './components/sidebar';
 import AddProduct from './AddProduct';
 import ProgressChart from './components/ProgressChart/progress';
+
+import Success from './components/payment/Success';
+import Cancel from './components/payment/Cancel';
+import MeditationTutorial  from './components/MeditationTutorial';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -59,6 +64,13 @@ function App() {
             <Route path="/video-library" element={isLoggedIn ? <VideoLibrary /> : <Navigate to="/" />} />
             <Route path="/subscriptions" element={isLoggedIn ? <Subscriptions user={user} /> : <Navigate to="/" />} />
             <Route path="/reset-password" element={isLoggedIn ? <ResetPassword /> : <Navigate to="/" />} />
+
+            
+            <Route path="/MeditationTutorial" element={<MeditationTutorial />} />
+
+            <Route path="/payment" element={<PaymentPage />} />
+            <Route path="/success" element={<Success />} />
+            <Route path="/cancel" element={<Cancel />} />
 
             {/* Admin-specific routes */}
             <Route path="/admin/dashboard" element={isLoggedIn && isAdmin ? <AdminDashboard /> : <Navigate to="/admin-login" />} />

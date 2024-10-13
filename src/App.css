@@ -53,11 +53,11 @@ html, body {
   background-color: rgba(124, 234, 6, 0.773);
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  transition: height 0.5s ease-in-out;
+  transition: height 0.4s ease-in-out;
 }
 
 .nav-ul li a:hover::before {
-  height: 95%; 
+  height: 100%; 
 }
 
 /* Fixed header */
@@ -66,8 +66,10 @@ header {
   top: 0;
   width: 100%;
   z-index: 1000;
-  background-color: #f68484;
+  background-color: rgb(222, 211, 211);
   padding: 10px 0;
+  border: 2px solid black;
+  border-radius: 20px;
 }
 
 /* Dummy header to maintain layout */

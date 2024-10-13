@@ -1,36 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './VideoLibrary.css'; // Ensure CSS classes are defined
+import { useNavigate } from 'react-router-dom';
+import './VideoLibrary.css';
 
-const VideoLibrary = ({ refreshTrigger }) => {
+const VideoLibrary = ({ refreshTrigger, userSubscriptions = [] }) => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [expandedSession, setExpandedSession] = useState(null); // To track which session is expanded
-  const currentVideoRef = useRef(null); // Ref to track the currently playing video
+  const [expandedSession, setExpandedSession] = useState(null);
+  const currentVideoRef = useRef(null);
+  const navigate = useNavigate();
 
-  // Fetch videos from the server
   const fetchVideos = async () => {
     setLoading(true);
     setError(null);
     try {
       const response = await fetch('http://localhost:5000/video-library', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }, // Fixed template literal
       });
 
       if (!response.ok) {
         if (response.status === 401) {
           throw new Error('Unauthorized: Please log in again.');
         } else {
-          throw new Error('Failed to fetch videos');
+          throw new Error(`Failed to fetch videos: ${response.statusText}`); // Improved error message
         }
       }
 
       const data = await response.json();
-      console.log('Fetched videos:', data); // Debugging log
       setVideos(data);
     } catch (err) {
       setError(err.message);
-      console.error('Error fetching videos:', err); // Debugging log
     } finally {
       setLoading(false);
     }
@@ -38,14 +37,12 @@ const VideoLibrary = ({ refreshTrigger }) => {
 
   useEffect(() => {
     fetchVideos();
-  }, [refreshTrigger]); // Re-fetch videos when refreshTrigger changes
+  }, [refreshTrigger]);
 
-  // Toggle session visibility
   const handleSessionToggle = (session) => {
     setExpandedSession(expandedSession === session ? null : session);
   };
 
-  // Handle video playback: pause the currently playing video if a new one is played
   const handleVideoPlay = (event) => {
     if (currentVideoRef.current && currentVideoRef.current !== event.target) {
       currentVideoRef.current.pause();
@@ -53,14 +50,17 @@ const VideoLibrary = ({ refreshTrigger }) => {
     currentVideoRef.current = event.target;
   };
 
+  const handleSessionPayment = (sessionName) => {
+    navigate('/payment', { state: { sessionName } });
+  };
+
   if (loading) return <p className="loading">Loading videos...</p>;
   if (error) return <p className="error">Error: {error}</p>;
 
   if (videos.length === 0) return <p>No videos found in the library.</p>;
 
-  // Group videos by session
   const sessions = videos.reduce((acc, video) => {
-    const sessionName = video.session || 'General'; // Handle undefined sessions
+    const sessionName = video.session || 'General';
     if (!acc[sessionName]) {
       acc[sessionName] = [];
     }
@@ -68,15 +68,26 @@ const VideoLibrary = ({ refreshTrigger }) => {
     return acc;
   }, {});
 
+  const sortedSessionKeys = Object.keys(sessions).sort((a, b) => {
+    return a === 'General' ? -1 : b === 'General' ? 1 : 0;
+  });
+
   return (
     <div className="video-library">
       <h2>Video Library</h2>
       <ul>
-        {Object.keys(sessions).map((session) => (
+        {sortedSessionKeys.map((session) => (
           <li key={session}>
-            <h3 onClick={() => handleSessionToggle(session)} style={{ cursor: 'pointer' }}>
-              {session}
-            </h3>
+            <div className="session-header">
+              <h3 onClick={() => handleSessionToggle(session)} style={{ cursor: 'pointer' }}>
+                {session}
+              </h3>
+              {session === 'General' ? (
+                <span>Free to Watch</span>
+              ) : (
+                <button onClick={() => handleSessionPayment(session)}>Pay for Session</button>
+              )}
+            </div>
             {expandedSession === session && (
               <ul>
                 {sessions[session].map((video) => (
@@ -84,15 +95,20 @@ const VideoLibrary = ({ refreshTrigger }) => {
                     <h4>{video.title}</h4>
                     {video.poster && (
                       <img
-                        src={`http://localhost:5000/${video.poster}`}
+                        src={`http://localhost:5000/${video.poster}`} // Wrapped in quotes
                         alt="Video Poster"
+                        style={{ maxWidth: '200px' }}
                       />
                     )}
-                    <video
-                      controls
-                      src={`http://localhost:5000/${video.path}`}
-                      onPlay={handleVideoPlay} // Restrict playback if necessary
-                    />
+                    {userSubscriptions.includes(session) || session === 'General' ? ( // Simplified condition
+                      <video
+                        controls
+                        src={`http://localhost:5000/${video.path}`} // Wrapped in quotes
+                        onPlay={handleVideoPlay}
+                      />
+                    ) : (
+                      <p style={{ color: 'red' }}>Please subscribe to watch this video.</p>
+                    )}
                   </li>
                 ))}
               </ul>

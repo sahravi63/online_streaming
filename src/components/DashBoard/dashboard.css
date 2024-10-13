@@ -1,78 +1,176 @@
-*{
-    margin:0%;
-    padding: 0%;
-    box-sizing: border-box;
+/* Global reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+/* Dashboard container */
 .dashboard-container {
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .dashboard-content {
-    display: flex;
-    justify-content: space-between;
-    
-  }
-  
-  .dashboard-main {
-    width: 100%;
-    padding: 20px;
-    margin: 10px 10px;
-  }
-  
-  h1 {
-    font-size: 2em;
-    margin: 20px 20px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  }
-  
-  p {
-    margin: 20px 10px;
-  }
-  
+/* Dashboard content */
+.dashboard-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px; /* Limit maximum width */
+}
+
+/* Main dashboard area */
+.dashboard-main {
+  width: 100%;
+  padding: 20px;
+  margin: 10px;
+  background-color: #f9f9f9;
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+p {
+  margin: 10px 0;
+  font-size: 1.1em;
+  color: #555;
+  line-height: 1.6; /* Improves readability */
+}
+
+/* Dashboard stats layout */
+.dashboard-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.stat-box {
+  width: 48%; /* Ensure stats are properly spaced */
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05); /* Light shadow */
+}
+
+/* Upload and Cancel buttons */
+.upload-btn {
+  padding: 12px 20px;
+  background-color: #df6f4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1em;
+  margin-bottom: 20px;
+  margin-right: 10px; /* Add space between buttons */
+  transition: background-color 0.3s ease;
+}
+
+.upload-btn:hover {
+  background-color: #21b300;
+}
+
+.cancel-btn {
+  padding: 12px 20px;
+  background-color: #ccc;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1em;
+  margin-left: 10px; /* Space between buttons */
+  margin-bottom: 20px; /* Add space at the bottom */
+}
+
+.cancel-btn:hover {
+  background-color: #999;
+}
+
+/* Link to progress */
+.progress-link {
+  margin-top: 20px;
+}
+
+.progress-link a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.progress-link a:hover {
+  color: #0056b3;
+}
+
+/* Error message */
+.error {
+  color: red;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+/* Input fields styling */
+form input[type="text"],
+form input[type="number"],
+form input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form input[type="file"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Form button styling */
+form button {
+  padding: 12px 20px;
+  background-color: #df6f4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #21b300;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
   .dashboard-stats {
-    display: flex;
-    justify-content: space-between;
+    flex-direction: column;
   }
-  
+
   .stat-box {
-    width: 40%;
-    padding: 20px;
-    border: 1px solid #060101;
-    text-align: center;
-  }
-  
-  .upload-btn {
+    width: 100%;
     margin-bottom: 20px;
-    padding: 10px 15px;
-    background-color: #df6f4d;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin: 50px 20px;
   }
-  
-  .upload-btn:hover {
-    background-color: #21b300;
-  }
-  
-  .progress-link {
+
+  .upload-btn {
+    width: 100%;
     margin-top: 20px;
   }
-  
-  .progress-link a {
-    text-decoration: none;
-    color: #007bff;
+
+  form input[type="text"],
+  form input[type="number"],
+  form input[type="file"] {
+    width: 100%;
   }
-  
-  .progress-link a:hover {
-    color: #0056b3;
-  }
-  
-  .error {
-    color: red;
-  }
-  
+}

@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
 
 const Subscriptions = ({ user }) => {
-  const [subscription, setSubscription] = useState(null);
+  const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const [isExpired, setIsExpired] = useState(false);
 
   useEffect(() => {
-    const fetchSubscription = async () => {
+    const fetchSubscriptions = async () => {
       try {
         const response = await fetch(`http://localhost:5000/api/subscription/${user.id}`, {
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
         const data = await response.json();
 
         if (response.ok) {
-          setSubscription(data);
+          setSubscriptions(data.subscriptions);
+          checkIfExpired(data.subscriptions); // Check expiration status
         } else {
           setError(data.error || 'Failed to fetch subscription details.');
         }
@@ -26,23 +28,33 @@ const Subscriptions = ({ user }) => {
       }
     };
 
-    fetchSubscription();
+    const checkIfExpired = (subscriptions) => {
+      const currentDate = new Date();
+      const endDate = new Date(subscriptions.endDate);
+      setIsExpired(currentDate > endDate);
+    };
+
+    fetchSubscriptions();
   }, [user.id]);
 
-  const handleSubscribe = async () => {
-    const sessionId = 'your-session-id'; // Get the session ID from your context or state
+  const handleRenew = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/subscription/upgrade/${user.id}`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
 
-    const response = await fetch('http://localhost:5000/api/subscribe', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-      body: JSON.stringify({ userId: user.id, sessionId }),
-    });
+      const data = await response.json();
 
-    if (response.ok) {
-      setMessage('Subscription successful!');
-      setSubscription((prev) => [...prev, sessionId]); // Update state
-    } else {
-      setMessage('Subscription failed.');
+      if (response.ok) {
+        setMessage('Subscription renewed successfully!');
+        setSubscriptions(data.subscription);
+        setIsExpired(false); // Reset expired status after renewal
+      } else {
+        setMessage('Renewal failed.');
+      }
+    } catch (error) {
+      setMessage('Error during subscription renewal.');
     }
   };
 
@@ -51,12 +63,13 @@ const Subscriptions = ({ user }) => {
       <h2>Your Subscriptions</h2>
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {subscription && subscription.length === 0 && <p>No active subscriptions.</p>}
-      <button onClick={handleSubscribe}>Subscribe to New Session</button>
+      {subscriptions.length === 0 && <p>No active subscriptions.</p>}
+      {isExpired && <p style={{ color: 'red' }}>Your subscription has expired. Please renew.</p>}
+      <button onClick={handleRenew} disabled={!isExpired}>Renew Subscription</button>
       {message && <p>{message}</p>}
       <ul>
-        {subscription && subscription.map((sub) => (
-          <li key={sub}>{sub}</li> // Display subscriptions
+        {subscriptions.map((sub) => (
+          <li key={sub}>{sub}</li>
         ))}
       </ul>
     </div>

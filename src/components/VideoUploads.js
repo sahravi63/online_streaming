@@ -5,6 +5,7 @@ const VideoUpload = ({ onClose }) => {
   const [videoFile, setVideoFile] = useState(null);
   const [posterFile, setPosterFile] = useState(null);
   const [session, setSession] = useState(''); // State for session
+  const [price, setPrice] = useState(''); // State for price
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
@@ -14,6 +15,7 @@ const VideoUpload = ({ onClose }) => {
     setVideoFile(null);
     setPosterFile(null);
     setSession(''); // Reset session
+    setPrice(''); // Reset price
     setError(null);
     setSuccess(false);
   };
@@ -51,6 +53,7 @@ const VideoUpload = ({ onClose }) => {
       formData.append('poster', posterFile);
     }
     formData.append('session', session); // Add session name to form data
+    formData.append('price', price); // Add price to form data
 
     try {
       const response = await fetch('http://localhost:5000/api/videos/upload-video', {
@@ -94,6 +97,12 @@ const VideoUpload = ({ onClose }) => {
           placeholder="Session Name (leave blank for general)"
           value={session}
           onChange={(e) => setSession(e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Price (optional)"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
         />
         <input
           type="file"
